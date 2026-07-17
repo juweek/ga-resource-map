@@ -68,7 +68,6 @@ const OrgCard = memo(function OrgCard({
       onClick={() => onSelect(isSelected ? null : resource.id)}
       onMouseEnter={() => onHover(resource.id)}
       onMouseLeave={() => onHover(null)}
-      aria-expanded={isSelected}
       className={`cursor-pointer border-l-4 px-4 py-3 transition-colors ${
         isSelected ? 'bg-brand-50' : 'hover:bg-gray-100'
       }`}
