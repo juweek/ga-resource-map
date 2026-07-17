@@ -366,11 +366,11 @@ export default function FoodFinderMap() {
   const activeNeed = enabledNeeds.size === 1 ? [...enabledNeeds][0] : null;
 
   const inputClass =
-    'mt-0.5 rounded-md border border-gray-400 px-3 py-1.5 text-sm text-gray-900 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500';
+    'mt-0.5 rounded-md border border-gray-400 px-3 py-1.5 text-base text-gray-900 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 sm:text-sm';
 
   return (
     <LangProvider value={lang}>
-      <div className="min-h-screen">
+      <div className="min-h-screen w-full overflow-x-hidden">
         {/* ── Top menu bar (language switcher, top right) ─────── */}
         <header className="flex items-center justify-end border-b border-gray-200 bg-white px-4 py-2">
           <select
@@ -393,7 +393,7 @@ export default function FoodFinderMap() {
         <div className="sticky top-0 z-20 border-b border-gray-300 bg-white px-4 py-3 shadow-sm">
           <form
             onSubmit={handleSubmit}
-            className="mx-auto flex max-w-4xl flex-wrap items-end gap-x-4 gap-y-2"
+            className="mx-auto flex w-full max-w-4xl flex-wrap items-end justify-end gap-x-4 gap-y-2 sm:justify-start"
           >
             <label className="flex flex-col text-xs font-medium text-gray-700">
               {t('locationLabel')}
@@ -428,24 +428,30 @@ export default function FoodFinderMap() {
               </div>
             </div>
 
-            <label className="flex flex-col text-xs font-medium text-gray-700">
-              {t('timeLabel')}
-              <select value={minutes} onChange={changeMinutes} className={inputClass}>
-                {minutesOptions.map((m) => (
-                  <option key={m} value={m}>
-                    {m} {t('min')}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <div className="flex w-full items-end gap-3 sm:contents">
+              <button
+                type="submit"
+                disabled={loading}
+                className="order-1 rounded-md bg-brand-500 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-600 disabled:opacity-60 sm:order-2"
+              >
+                {loading ? t('searching') : t('search')}
+              </button>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="rounded-md bg-brand-500 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-600 disabled:opacity-60"
-            >
-              {loading ? t('searching') : t('search')}
-            </button>
+              <label className="order-2 ml-auto flex flex-col items-end text-right text-xs font-medium text-gray-700 sm:order-1 sm:ml-0 sm:items-start sm:text-left">
+                {t('timeLabel')}
+                <select
+                  value={minutes}
+                  onChange={changeMinutes}
+                  className={inputClass}
+                >
+                  {minutesOptions.map((m) => (
+                    <option key={m} value={m}>
+                      {m} {t('min')}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
           </form>
           {errorText && (
             <p className="mx-auto mt-1 max-w-4xl text-xs font-medium text-red-700">

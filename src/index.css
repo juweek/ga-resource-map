@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 640px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
+
 /* Custom popup styles */
 .mapbox-popup-hover .mapboxgl-popup-content {
   padding: 8px 12px;

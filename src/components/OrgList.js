@@ -15,6 +15,8 @@ const STATUS_STYLE = {
 
 const actionButtonClass =
   'inline-flex items-center gap-1 rounded-md bg-brand-500 px-2.5 py-1 text-xs font-semibold text-white transition-colors hover:bg-brand-600';
+const filterControlClass =
+  'h-9 rounded-md border border-gray-400 px-3 text-base text-gray-900 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 sm:text-sm';
 
 const OrgCard = memo(function OrgCard({
   resource,
@@ -279,14 +281,14 @@ export default function OrgList({
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             placeholder={t('filterPlaceholder')}
-            className="min-w-0 flex-1 rounded-md border border-gray-400 px-3 py-1.5 text-sm text-gray-900 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className={`min-w-0 flex-1 ${filterControlClass}`}
           />
           <label className="flex items-center gap-1.5 text-xs text-gray-700">
             {t('sortLabel')}
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="rounded-md border border-gray-400 px-2 py-1.5 text-sm text-gray-900 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className={filterControlClass}
             >
               <option value="distance">{t('sortDistance')}</option>
               <option value="name">{t('sortName')}</option>

@@ -269,7 +269,23 @@ export default function ResourceMap({
   useEffect(() => {
     if (!isReady || !drawing) return;
     const m = map.current;
+    const interactions = {
+      dragPan: m.dragPan.isEnabled(),
+      dragRotate: m.dragRotate.isEnabled(),
+      touchZoomRotate: m.touchZoomRotate.isEnabled(),
+      scrollZoom: m.scrollZoom.isEnabled(),
+      doubleClickZoom: m.doubleClickZoom.isEnabled(),
+      boxZoom: m.boxZoom.isEnabled(),
+      keyboard: m.keyboard.isEnabled(),
+    };
+
     m.dragPan.disable();
+    m.dragRotate.disable();
+    m.touchZoomRotate.disable();
+    m.scrollZoom.disable();
+    m.doubleClickZoom.disable();
+    m.boxZoom.disable();
+    m.keyboard.disable();
     m.getCanvas().style.cursor = 'crosshair';
 
     let ring = [];
@@ -312,7 +328,13 @@ export default function ResourceMap({
       m.off('touchend', onUp);
       m.getSource('draw-trace')?.setData(EMPTY);
       m.getCanvas().style.cursor = '';
-      m.dragPan.enable();
+      if (interactions.dragPan) m.dragPan.enable();
+      if (interactions.dragRotate) m.dragRotate.enable();
+      if (interactions.touchZoomRotate) m.touchZoomRotate.enable();
+      if (interactions.scrollZoom) m.scrollZoom.enable();
+      if (interactions.doubleClickZoom) m.doubleClickZoom.enable();
+      if (interactions.boxZoom) m.boxZoom.enable();
+      if (interactions.keyboard) m.keyboard.enable();
     };
   }, [drawing, isReady]);
 
@@ -346,5 +368,10 @@ export default function ResourceMap({
     prevHovered.current = hoveredId;
   }, [hoveredId, isReady, selectedId]);
 
-  return <div ref={mapContainer} className="h-full w-full" />;
+  return (
+    <div
+      ref={mapContainer}
+      className={`h-full w-full ${drawing ? 'touch-none' : ''}`}
+    />
+  );
 }
