@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c4383" />
+    <meta name="description" content="Georgia Food Finder — food pantries and food-assistance resources near you." />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- Google Fonts: Roboto + Urbanist -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Urbanist:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Georgia Food Finder</title>
+    <!-- If the page loads in a hidden tab/embedded pane, requestAnimationFrame
+         never fires and the map can't render — fall back to timers. -->
+    <script>
+      if (document.hidden) {
+        window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+        window.cancelAnimationFrame = clearTimeout;
+      }
+    </script>
+    <!-- Ad-blocker extensions block Mapbox's telemetry endpoint
+         (events.mapbox.com), and the rejected fetch surfaces as an
+         "Uncaught (in promise) Failed to fetch" that trips React's dev error
+         overlay — even though the map itself is fine. Telemetry is optional,
+         so short-circuit those requests with a fake success before they reach
+         the blocker. Real tile/geocode/isochrone calls (api.mapbox.com) are
+         untouched. -->
+    <script>
+      (function () {
+        var realFetch = window.fetch.bind(window);
+        window.fetch = function (input) {
+          var url = typeof input === 'string' ? input : (input && input.url) || '';
+          if (url.indexOf('events.mapbox.com') !== -1) {
+            return Promise.resolve(new Response(null, { status: 204 }));
+          }
+          return realFetch.apply(null, arguments);
+        };
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
